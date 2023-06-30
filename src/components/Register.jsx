@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useAuth } from "../context/AuthContext"
 import { Navigate } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
+import { getFirestore, collection, doc, setDoc } from 'firebase/firestore'
 
 
 const Register = () => {
@@ -9,7 +10,8 @@ const Register = () => {
 
   const [user, setUser] = useState({
     email: '',
-    password: ''
+    password: '',
+    name: ''
   })
 
   const { signup } = useAuth()
@@ -27,11 +29,26 @@ const Register = () => {
 
 
   const handleSubmit = async (e) => {
+
     e.preventDefault()
     setError('')
+
     try {
-      //funcion asincrona
-      await signup(user.email, user.password)
+
+      const userCredential = await signup(user.email, user.password)
+      console.log('datos de userCredential', userCredential);
+      const { uid } = userCredential.user
+
+      /* await signup(user.email, user.password) */
+      const db = getFirestore()
+      const userRef = doc(collection(db, 'users'), uid)
+      const userData = {
+        email: user.email,
+        name: user.name,
+        money: 0
+      }
+
+      await setDoc(userRef, userData)
       navigate('/')
 
     } catch (error) {
@@ -51,6 +68,14 @@ const Register = () => {
 
       {error && <p>{error}</p>}
       <form onSubmit={handleSubmit}>
+
+        <label htmlFor="email">Nombre</label>
+        <input
+          type="text"
+          name="name"
+          placeholder="Tu nombre y apellido"
+          onChange={handleChange}
+        />
 
         <label htmlFor="email">Email</label>
         <input
