@@ -101,8 +101,9 @@ const Login = () => {
         </div>
         <div className=" flex w-full items-center justify-evenly mt-11 text-gray-300 text-[13px]">
           <div className="max-w-[400px] text-[13px]">
-            Advanced Cash Limited is a licensed payment service provider authorized by the Belize
-            Financial Services Commission (FSC), licenses MT 000107/455, PPS 000107/456.
+            Your solution for fast, secure, and convenient money transfers. Send and receive funds instantly with Interlan Transfers.
+             - Interlan currently is in development, soon to be operational.
+            Experience the future of seamless fund transfers with our intuitive and reliable platform, coming soon."
           </div>
           <div className="flex gap-3">
 
