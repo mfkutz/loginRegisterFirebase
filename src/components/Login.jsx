@@ -99,7 +99,7 @@ const Login = () => {
 
 
         </div>
-        <div className=" flex w-full items-center justify-evenly mt-11 text-gray-300 text-[13px]">
+        <div className=" flex w-full items-center justify-evenly mt-8 text-gray-300 text-[13px]">
           <div className="max-w-[400px] text-[13px]">
             Your solution for fast, secure, and convenient money transfers. Send and receive funds instantly with Interlan Transfers.
              - Interlan currently is in development, soon to be operational.
