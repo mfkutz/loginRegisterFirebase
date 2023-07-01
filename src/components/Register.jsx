@@ -11,7 +11,8 @@ const Register = () => {
   const [user, setUser] = useState({
     email: '',
     password: '',
-    name: ''
+    name: '',
+    lastName: ''
   })
 
   const { signup } = useAuth()
@@ -45,6 +46,7 @@ const Register = () => {
       const userData = {
         email: user.email,
         name: user.name,
+        lastName: user.lastName,
         money: 0
       }
 
@@ -69,11 +71,18 @@ const Register = () => {
       {error && <p>{error}</p>}
       <form onSubmit={handleSubmit}>
 
-        <label htmlFor="email">Nombre</label>
+        <label htmlFor="email">First Name</label>
         <input
           type="text"
           name="name"
-          placeholder="Tu nombre y apellido"
+          /* placeholder="Tu nombre y apellido" */
+          onChange={handleChange}
+        />
+        <label htmlFor="email">Last Name</label>
+        <input
+          type="text"
+          name="lastName"
+          /* placeholder="Tu nombre y apellido" */
           onChange={handleChange}
         />
 
@@ -81,7 +90,7 @@ const Register = () => {
         <input
           type="email"
           name="email"
-          placeholder="youremail@company.ltd"
+          /* placeholder="youremail@company.ltd" */
           onChange={handleChange}
         />
 
