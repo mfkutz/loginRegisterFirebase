@@ -51,7 +51,9 @@ const Login = () => {
       <div className="w-[190px] absolute top-11 left-20 ">
         <img src={logo} alt="" />
       </div>
-      <div className="bg-gray-900 h-screen flex justify-center items-center gap-11">
+      <div className="bg-gray-900 h-screen flex flex-col justify-center items-center gap-11">
+        
+        <div className="flex justify-center items-center gap-11">
         <form onSubmit={handleSubmit}>
 
 
@@ -98,8 +100,13 @@ const Login = () => {
           Our platform ensures your transactions are swift, protected, and hassle-free."
         </div>
 
-      </div>
 
+        </div>
+        {/* /////////////////////////FOOTER//////////////////////////////// */}
+        <div className="bg-red-400">
+          footer
+        </div>
+      </div>
     </div>
   )
 }
