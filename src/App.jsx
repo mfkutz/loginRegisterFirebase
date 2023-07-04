@@ -4,6 +4,7 @@ import Login from "./components/Login"
 import Register from "./components/Register"
 import AuthContextProvider from "./context/AuthContext"
 import { ProtectedRoute } from "./components/ProtectedRoute"
+import EmailSent from "./components/EmailSent"
 
 
 
@@ -25,6 +26,7 @@ function App() {
           } />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/email" element={<EmailSent />} />
         </Routes>
       </AuthContextProvider>
     </div>

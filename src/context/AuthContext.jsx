@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react"
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { auth } from '../assets/firebase/config'
 
+
 //creo el contexto
 export const authContext = createContext()
 
@@ -25,13 +26,23 @@ const AuthContextProvider = ({ children }) => {
     //con esta funcion creamos el usuario en firebase, prestar atencion al retorno (implicito), para controlar el try catch en register
     const signup = (email, password) => createUserWithEmailAndPassword(auth, email, password)
 
-    const login = (email, password) => signInWithEmailAndPassword(auth, email, password)
+
+    const login = async (email, password) => {
+
+        const { user } = await signInWithEmailAndPassword(auth, email, password)
+
+        if (!user.emailVerified) {
+            throw new Error("email not verified")
+        }
+
+        setUser(user)
+    }
 
     const logout = () => signOut(auth)
 
 
     useEffect(() => {
-        console.log('auth provider loaded');
+        /* console.log('auth provider loaded'); */
         onAuthStateChanged(auth, currentUser => {
             console.log('in context', currentUser);
             setUser(currentUser)
