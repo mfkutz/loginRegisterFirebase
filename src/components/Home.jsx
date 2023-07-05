@@ -31,11 +31,15 @@ const Home = () => {
   const [transferAmount, setTransferAmount] = useState('')
   const [transferRecipient, setTransferRecipient] = useState("")
   const [transferMessage, setTransferMessage] = useState()
+  const [recipientSnapshot, setRecipientSnapshot] = useState(null);
+
+
 
   const [iconEye, setIconEye] = useState(true)
 
   //POPUP FOR SENT
   const [popup, setPopup] = useState(false)
+  const [fundSent, setFundSent] = useState(false)
 
   const handlePopup = () => {
     setPopup(!popup)
@@ -49,53 +53,69 @@ const Home = () => {
     await logout()
   }
 
+
+  const validateDataSend = async () => {
+    if (!userData || userData.money < transferAmount) {
+      setTransferMessage('Insufficient funds');
+      return false;
+    }
+
+    const db = getFirestore();
+    const userRef = doc(db, 'users', user.uid);
+    const recipientRef = collection(db, 'users');
+    const recipientQuery = query(recipientRef, where('email', '==', transferRecipient));
+    const recipientSnapshot = await getDocs(recipientQuery);
+
+    if (recipientSnapshot.empty) {
+      setTransferMessage('Recipient not found');
+      return false;
+    }
+
+    const recipientDoc = recipientSnapshot.docs[0];
+    const recipientId = recipientDoc.id;
+
+    if (recipientId === user.uid) {
+      setTransferMessage(`You can't send money to yourself`);
+      return false;
+    }
+
+    setRecipientSnapshot(recipientSnapshot);
+
+    handlePopup()
+    return true;
+  }
+
+
+
+
   const handleTransfer = async () => {
+    const isValid = await validateDataSend();
 
+    if (isValid) {
+      const db = getFirestore();
+      const userRef = doc(db, 'users', user.uid);
+      const recipientDoc = recipientSnapshot.docs[0];
+      const recipientData = recipientDoc.data();
 
- /*    console.log("userData.money:", userData.money);
-    console.log("transferAmount:", transferAmount); */
+      try {
+        // Realizar la transferencia
+        await updateDoc(userRef, {
+          money: userData.money - transferAmount,
+        });
+        await updateDoc(recipientDoc.ref, {
+          money: recipientData.money + transferAmount,
+        });
+        setTransferMessage('Successful transfer');
 
+        setFundSent(true)
+        handlePopup(false)
 
-    if (userData && userData.money >= transferAmount) {
-      const db = getFirestore()
-      const userRef = doc(db, "users", user.uid)
-      const recipientRef = collection(db, "users")
-      const recipientQuery = query(recipientRef, where("email", "==", transferRecipient))
-      const recipientSnapshot = await getDocs(recipientQuery)
-
-      if (!recipientSnapshot.empty) {
-        const recipientDoc = recipientSnapshot.docs[0]
-        const recipientData = recipientDoc.data()
-        const recipientId = recipientDoc.id
-
-        if (recipientId === user.uid) {
-          setTransferMessage(`You can't send money to yourself`)
-          return
-        }
-
-        try {
-          // Realizar la transferencia
-          await updateDoc(userRef, {
-            money: userData.money - transferAmount,
-          })
-
-          await updateDoc(recipientDoc.ref, {
-            money: recipientData.money + transferAmount,
-          })
-
-          setTransferMessage('Successful transfer')
-        } catch (error) {
-          setTransferMessage('Transfer failed')
-        }
-
-      } else {
-        setTransferMessage('Recipient not found')
+      } catch (error) {
+        setTransferMessage('Transfer failed');
       }
     }
-    else {
-      setTransferMessage('Insufficient funds')
-    }
   };
+
 
   useEffect(() => {
     if (user) {
@@ -257,14 +277,14 @@ const Home = () => {
             <RiEyeOffLine />
           </div>
           <span className="mx-2">Balance:</span>
-          <div>${iconEye ? userData.money : '*****'} USD</div>
+          <div>${iconEye ? userData.money.toFixed(2) : '*****'} USD</div>
         </div>
       </div>
 
 
 
       {/* *************************  SEND MONEY   *************************** */}
-      <div className="text-gray-300 ml-[14%] h-[90vh] bg-gray-900">
+      <div className={`text-gray-300 ml-[14%] h-[90vh] bg-gray-900 ${fundSent ? 'hidden' : ''}`}>
         <div className="text-gray-300 uppercase text-[34px] font-bold px-40 pt-20" >Send funds</div>
         <div className="text-gray-300 uppercase text-[12px] font-bold px-40 mb-8" >Internal transfer</div>
 
@@ -303,17 +323,17 @@ const Home = () => {
           /* value={transferAmount} */
           /* onChange={(e) => setTransferAmount(Number(e.target.value))} */
           />
+
+          <p className="text-[13px] mt-1 font-bold text-red-600">{transferMessage}</p>
+
         </div>
 
 
 
         <div className="flex justify-center">
-          <button onClick={handlePopup} className="bg-blue-500 w-[100px] flex justify-center h-[34px] items-center mt-8 rounded-sm">Send</button>
+          <button onClick={validateDataSend} className="bg-blue-500 w-[100px] flex justify-center h-[34px] items-center mt-8 rounded-sm">Send</button>
         </div>
 
-        <div>
-          <p>{transferMessage}</p>
-        </div>
       </div>
 
 
@@ -343,40 +363,47 @@ const Home = () => {
 
 
 
+      {/* ****************************  SENT  ********************************* */}
+      <div className={`ml-[14%] h-[90vh] bg-gray-900 text-gray-300 px-40 ${fundSent ? '' : 'hidden'}`}>
 
-
-
-      {/* **************************** HOME ********************************* */}
-      <div className=" bg-gray-400 ml-[14%] hidden">
-        <div>Home</div>
-        <p>Welcome {userData.name} {userData.lastName}!</p>
-        <p>Email: {userData.email}</p>
-        <p>Money: ${userData.money}</p>
-
-        <h2>Transfer Money</h2>
-        <label htmlFor="recipient">Recipient:</label>
-        <input
-          type="text"
-          id="recipient"
-          value={transferRecipient}
-          onChange={(e) => setTransferRecipient(e.target.value)}
-        />
-
-        <label htmlFor="amount">Amount:</label>
-        <input
-          type="number"
-          id="amount"
-          value={transferAmount}
-          onChange={(e) => setTransferAmount(Number(e.target.value))}
-        />
-
-        <button onClick={handleTransfer}>Transfer</button>
-        <button onClick={handleLogout}>Logout</button>
-
-        <div>
-          <p>{transferMessage}</p>
+        <div className="text-[34px] font-bold pt-20">
+          {transferMessage}
         </div>
+
+        <div className="mt-9 flex items-center " >
+          <img src={userImg} alt="user image" className="w-[70px] rounded-full" />
+          <p className="ml-3">{transferRecipient}</p>
+        </div>
+
+        <div className="flex justify-center text-[40px] font-bold">${transferAmount}</div>
+
+        <div className="uppercase text-sm border-b border-gray-600 pb-2">
+          Details
+        </div>
+
+        <div className="text-[18px] font-bold mt-3">Details of transaction</div>
+        <div className="mt-3 flex justify-between">
+          <div className="text-[12px]">
+            <div>Funds sent to:</div>
+            <div>Date completed</div>
+            <div>ID of transaction</div>
+          </div>
+
+          <div className="text-[12px]">
+            <div>{transferRecipient}</div>
+            <div>Date completed</div>
+            <div>ID of transaction</div>
+          </div>
+
+
+        </div>
+
       </div>
+
+
+
+
+
 
     </div>
 
