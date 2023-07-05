@@ -14,3 +14,9 @@
 .specialShadow {
     box-shadow: 0 0 0 100vmax rgba(15, 14, 22, 0.8);
 }
+
+input[type]:focus {
+    border-color: gray;
+    border: solid 1px gray;
+    outline: 0 none;
+}

@@ -52,8 +52,8 @@ const Home = () => {
   const handleTransfer = async () => {
 
 
-    console.log("userData.money:", userData.money);
-    console.log("transferAmount:", transferAmount);
+ /*    console.log("userData.money:", userData.money);
+    console.log("transferAmount:", transferAmount); */
 
 
     if (userData && userData.money >= transferAmount) {
@@ -273,7 +273,7 @@ const Home = () => {
           <div htmlFor="recipient" className="text-[11px] font-semiBold uppercase mb-1">Transfer with E-mail user</div>
 
           <input
-            className="flex min-w-full h-[44px] bg-gray-900 border border-gray-600 px-3 text-[14px]"
+            className="flex min-w-full h-[44px] bg-gray-900 border border-gray-600 px-3 text-[13px] rounded-sm"
             type="text"
             id="recipient"
             value={transferRecipient}
@@ -285,7 +285,7 @@ const Home = () => {
           <div htmlFor="recipient" className="text-[11px] font-semiBold uppercase mb-1 mt-11">Funds to send</div>
 
           <input
-            className="flex min-w-full h-[44px] bg-gray-900 border border-gray-600 px-3 text-[14px]"
+            className="flex min-w-full h-[44px] bg-gray-900 border border-gray-600 px-3 text-[22px] rounded-sm"
             type="number"
             id="amount"
             value={transferAmount}
@@ -297,7 +297,7 @@ const Home = () => {
           <div htmlFor="recipient" className="text-[11px] font-semiBold uppercase mb-1 mt-11">Purpose of shipment (Required)</div>
 
           <input
-            className="flex min-w-full h-[44px] bg-gray-900 border border-gray-600 px-3 text-[14px]"
+            className="flex min-w-full h-[44px] bg-gray-900 border border-gray-600 px-3 text-[13px] rounded-sm"
             type="text"
             id="amount"
           /* value={transferAmount} */
@@ -308,7 +308,7 @@ const Home = () => {
 
 
         <div className="flex justify-center">
-          <button onClick={handlePopup} className="bg-blue-500 w-[100px] flex justify-center h-[34px] items-center mt-8">Send</button>
+          <button onClick={handlePopup} className="bg-blue-500 w-[100px] flex justify-center h-[34px] items-center mt-8 rounded-sm">Send</button>
         </div>
 
         <div>
@@ -322,13 +322,23 @@ const Home = () => {
 
       {/* **************************** POPUP SEND  ********************************* */}
 
-      <div className={` specialShadow absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-700 text-gray-300 w-[34%] h-[46%] z-40 ${popup ? '' : 'hidden'}`}>
+      <div className={`border rounded-sm border-gray-600 specialShadow absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-900 text-gray-300 w-[510px] h-[350px] z-40 ${popup ? '' : 'hidden'}`}>
         <div className="text-[24px] justify-end flex p-2">
-          <RiCloseFill onClick={handlePopup} className="cursor-pointer"/>
+          <RiCloseFill onClick={handlePopup} className="cursor-pointer" />
         </div>
-        envio de dinero
-        <button onClick={handleTransfer} className="bg-blue-500 w-[100px] flex justify-center h-[34px] items-center mt-8">Send</button>
-        <button onClick={handlePopup}>Cancel</button>
+        <div className="flex justify-center uppercase font-bold text-[23px]">
+          Confirm shipment
+        </div>
+        <div className="text-xs flex justify-center">(Final action)</div>
+        <div className="text-sm flex justify-center mt-4">Funds to send</div>
+        <div className="text-4xl font-extrabold flex justify-center mt-2">${transferAmount}</div>
+        <div className="text-sm flex justify-center mt-4">to</div>
+        <div className="text-xl flex justify-center mt-4">{transferRecipient}</div>
+
+        <div className="flex items-center justify-evenly ">
+          <button onClick={handlePopup} className="bg-red-500 w-[100px] flex justify-center h-[34px] items-center mt-8 rounded-sm">Cancel</button>
+          <button onClick={handleTransfer} className="bg-blue-500 w-[100px] flex justify-center h-[34px] items-center mt-8 rounded-sm">Send</button>
+        </div>
       </div>
 
 
