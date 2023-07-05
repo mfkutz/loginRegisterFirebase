@@ -7,12 +7,21 @@ import userImg from '../assets/images/user.webp'
 import { RiStarLine } from "react-icons/ri";
 import { RiSettings3Line } from "react-icons/ri";
 import { RiExchangeDollarLine } from "react-icons/ri";
+import { RiEyeLine } from "react-icons/ri";
 import { RiSendPlane2Line } from "react-icons/ri";
+import { RiEyeOffLine } from "react-icons/ri";
+import { RiLogoutBoxRLine } from "react-icons/ri";
 import { BiMoneyWithdraw } from "react-icons/bi";
 import { BiHelpCircle } from "react-icons/bi";
 import { BiHistory } from "react-icons/bi";
 import { GiReceiveMoney } from "react-icons/gi";
 import { Link } from "react-router-dom"
+
+import { RiNotification2Line } from "react-icons/ri";
+import HashLoader from "react-spinners/ClipLoader";
+
+
+
 
 const Home = () => {
   const { user, logout, loading } = useAuth()
@@ -21,6 +30,19 @@ const Home = () => {
   const [transferAmount, setTransferAmount] = useState('')
   const [transferRecipient, setTransferRecipient] = useState("")
   const [transferMessage, setTransferMessage] = useState()
+
+  const [iconEye, setIconEye] = useState(true)
+
+  //POPUP FOR SENT
+  const [popup, setPopup] = useState(false)
+
+  const handlePopup = () => {
+    setPopup(true)
+  }
+
+  const handleIconEye = () => {
+    setIconEye(!iconEye)
+  }
 
   const handleLogout = async () => {
     await logout()
@@ -107,12 +129,16 @@ const Home = () => {
     }
   }, [loadingData, user])
 
-  if (loading || loadingData) return <h1>Loading...</h1>
+  if (loading || loadingData) return (
+    <div className="bg-gray-900 text-gray-300 h-screen flex items-center justify-center">
+      <h1 className="" ><HashLoader color="#eeeeee" /></h1>
+    </div>
+  )
 
   return (
-    <div>
+    <div className="relative">
 
-      <div className="fixed bg-gray-900 min-h-screen w-[14%] " >
+      <div className="fixed bg-gray-900 min-h-screen w-[14%] border-r border-gray-600" >
 
 
         <div className="overflow-y-auto h-screen">
@@ -147,7 +173,7 @@ const Home = () => {
                 <Link className="flex items center text-gray-300 text-[21px] gap-1 mb-3">
                   <GiReceiveMoney />
                   <div className="text-[13px]">
-                    Add money (P2P)
+                    Add Money (P2P)
                   </div>
                 </Link>
 
@@ -168,7 +194,7 @@ const Home = () => {
                 <Link className="flex items center text-gray-300 text-[21px] gap-1 mb-3">
                   <RiExchangeDollarLine />
                   <div className="text-[13px]">
-                    Accept transactions
+                    Accept Transactions
                   </div>
                 </Link>
 
@@ -206,23 +232,105 @@ const Home = () => {
             <div className=" border-t border-gray-600 p-5 ">
 
               <div className="flex items center text-gray-300 text-[21px] gap-1 cursor-pointer" onClick={handleLogout}>
-                <BiMoneyWithdraw />
+                <RiLogoutBoxRLine />
                 <div className="text-[13px]">
                   Log Out
                 </div>
               </div>
-
             </div>
-
           </div>
+        </div>
+      </div>
 
+      {/* *************************** BALANCE MENU TOP ****************************/}
+      <div className="bg-gray-900 ml-[14%] p-6 justify-between h-[10vh] flex items-center border-b border-gray-600">
+        <div className="text-gray-300 text-[20px]">
+          <RiNotification2Line />
+        </div>
+
+        <div className="text-[14px] text-gray-300 flex items-center">
+          <div className={`text-[24px] ${iconEye ? '' : 'hidden'}`} onClick={handleIconEye}>
+            <RiEyeLine />
+          </div>
+          <div className={`text-[24px] ${iconEye ? 'hidden' : ''}`} onClick={handleIconEye}>
+            <RiEyeOffLine />
+          </div>
+          <span className="mx-2">Balance:</span>
+          <div>${iconEye ? userData.money : '*****'} USD</div>
+        </div>
+      </div>
+
+
+
+      {/* *************************  SEND MONEY   *************************** */}
+      <div className="text-gray-300 ml-[14%] h-[90vh] bg-gray-900">
+        <div className="text-gray-300 uppercase text-[34px] font-bold px-40 pt-20" >Send funds</div>
+        <div className="text-gray-300 uppercase text-[12px] font-bold px-40 mb-8" >Internal transfer</div>
+
+
+        <div className="px-40 ">
+          <div htmlFor="recipient" className="text-[11px] font-semiBold uppercase mb-1">Transfer with E-mail user</div>
+
+          <input
+            className="flex min-w-full h-[44px] bg-gray-900 border border-gray-600 px-3 text-[14px]"
+            type="text"
+            id="recipient"
+            value={transferRecipient}
+            onChange={(e) => setTransferRecipient(e.target.value)}
+          />
+        </div>
+
+        <div className="px-40 ">
+          <div htmlFor="recipient" className="text-[11px] font-semiBold uppercase mb-1 mt-11">Fondos a enviar</div>
+
+          <input
+            className="flex min-w-full h-[44px] bg-gray-900 border border-gray-600 px-3 text-[14px]"
+            type="number"
+            id="amount"
+            value={transferAmount}
+            onChange={(e) => setTransferAmount(Number(e.target.value))}
+          />
+        </div>
+
+        <div className="px-40 ">
+          <div htmlFor="recipient" className="text-[11px] font-semiBold uppercase mb-1 mt-11">Purpose of shipment (Required)</div>
+
+          <input
+            className="flex min-w-full h-[44px] bg-gray-900 border border-gray-600 px-3 text-[14px]"
+            type="number"
+            id="amount"
+          /* value={transferAmount} */
+          /* onChange={(e) => setTransferAmount(Number(e.target.value))} */
+          />
         </div>
 
 
 
+        <div className="flex justify-center">
+          <button onClick={handlePopup} className="bg-blue-500 w-[100px] flex justify-center h-[34px] items-center mt-8">Send</button>
+        </div>
+
+        <div>
+          <p>{transferMessage}</p>
+        </div>
       </div>
 
-      <div className=" bg-gray-400 ml-[14%]">
+
+      {/* **************************** POPUP SEND  ********************************* */}
+
+      <div className={`absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-700 text-gray-300 w-[34%] h-[46%] z-40 ${popup ? '' : 'hidden'}`}>
+        envio de dinero
+        <button onClick={handleTransfer} className="bg-blue-500 w-[100px] flex justify-center h-[34px] items-center mt-8">Send</button>
+        <button>close</button>
+      </div>
+
+
+
+
+
+
+      {/* **************************** HOME ********************************* */}
+      <div className=" bg-gray-400 ml-[14%] hidden">
         <div>Home</div>
         <p>Welcome {userData.name} {userData.lastName}!</p>
         <p>Email: {userData.email}</p>
