@@ -20,6 +20,7 @@ import { Link } from "react-router-dom"
 import { RiNotification2Line } from "react-icons/ri";
 import HashLoader from "react-spinners/ClipLoader";
 
+import { RiCloseFill } from "react-icons/ri";
 
 
 
@@ -37,7 +38,7 @@ const Home = () => {
   const [popup, setPopup] = useState(false)
 
   const handlePopup = () => {
-    setPopup(true)
+    setPopup(!popup)
   }
 
   const handleIconEye = () => {
@@ -82,17 +83,17 @@ const Home = () => {
             money: recipientData.money + transferAmount,
           })
 
-          setTransferMessage('Transferencia realizada')
+          setTransferMessage('Successful transfer')
         } catch (error) {
-          setTransferMessage('Error en la transferencia')
+          setTransferMessage('Transfer failed')
         }
 
       } else {
-        setTransferMessage('Destinatario no encontrado')
+        setTransferMessage('Recipient not found')
       }
     }
     else {
-      setTransferMessage('Fondos insuficientes')
+      setTransferMessage('Insufficient funds')
     }
   };
 
@@ -249,10 +250,10 @@ const Home = () => {
         </div>
 
         <div className="text-[14px] text-gray-300 flex items-center">
-          <div className={`text-[24px] ${iconEye ? '' : 'hidden'}`} onClick={handleIconEye}>
+          <div className={`text-[24px] cursor-pointer ${iconEye ? '' : 'hidden'}`} onClick={handleIconEye}>
             <RiEyeLine />
           </div>
-          <div className={`text-[24px] ${iconEye ? 'hidden' : ''}`} onClick={handleIconEye}>
+          <div className={`text-[24px] cursor-pointer ${iconEye ? 'hidden' : ''}`} onClick={handleIconEye}>
             <RiEyeOffLine />
           </div>
           <span className="mx-2">Balance:</span>
@@ -281,7 +282,7 @@ const Home = () => {
         </div>
 
         <div className="px-40 ">
-          <div htmlFor="recipient" className="text-[11px] font-semiBold uppercase mb-1 mt-11">Fondos a enviar</div>
+          <div htmlFor="recipient" className="text-[11px] font-semiBold uppercase mb-1 mt-11">Funds to send</div>
 
           <input
             className="flex min-w-full h-[44px] bg-gray-900 border border-gray-600 px-3 text-[14px]"
@@ -297,7 +298,7 @@ const Home = () => {
 
           <input
             className="flex min-w-full h-[44px] bg-gray-900 border border-gray-600 px-3 text-[14px]"
-            type="number"
+            type="text"
             id="amount"
           /* value={transferAmount} */
           /* onChange={(e) => setTransferAmount(Number(e.target.value))} */
@@ -316,12 +317,18 @@ const Home = () => {
       </div>
 
 
+
+
+
       {/* **************************** POPUP SEND  ********************************* */}
 
-      <div className={`absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-700 text-gray-300 w-[34%] h-[46%] z-40 ${popup ? '' : 'hidden'}`}>
+      <div className={` specialShadow absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-700 text-gray-300 w-[34%] h-[46%] z-40 ${popup ? '' : 'hidden'}`}>
+        <div className="text-[24px] justify-end flex p-2">
+          <RiCloseFill onClick={handlePopup} className="cursor-pointer"/>
+        </div>
         envio de dinero
         <button onClick={handleTransfer} className="bg-blue-500 w-[100px] flex justify-center h-[34px] items-center mt-8">Send</button>
-        <button>close</button>
+        <button onClick={handlePopup}>Cancel</button>
       </div>
 
 
