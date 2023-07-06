@@ -2,10 +2,12 @@ import { useState } from "react";
 import { RiEyeLine } from "react-icons/ri";
 import { RiEyeOffLine } from "react-icons/ri";
 import { RiNotification2Line } from "react-icons/ri";
+import { useAuth } from "../context/AuthContext";
 
-const TopMenu = ({ userData }) => {
+const TopMenu = () => {
 
     const [iconEye, setIconEye] = useState(true)
+    const { userData } = useAuth()
 
     const handleIconEye = () => {
         setIconEye(!iconEye)

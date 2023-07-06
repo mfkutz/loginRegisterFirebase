@@ -24,11 +24,11 @@ import TopMenu from "./TopMenu"
 
 
 const Home = () => {
-  const { user, logout, loading } = useAuth()
+
+  const { user, logout, loading, userData, setUserData, handleLogout } = useAuth()
 
   const [loadingData, setLoadingData] = useState(true)
 
-  const [userData, setUserData] = useState(null)
   const [transferAmount, setTransferAmount] = useState('')
   const [transferRecipient, setTransferRecipient] = useState("")
   const [transferMessage, setTransferMessage] = useState()
@@ -44,9 +44,9 @@ const Home = () => {
   }
 
 
-  const handleLogout = async () => {
-    await logout()
-  }
+  /*   const handleLogout = async () => {
+      await logout()
+    } */
 
   const validateDataSend = async () => {
     if (!userData || userData.money < transferAmount) {
@@ -114,7 +114,7 @@ const Home = () => {
 
       return () => unsubscribe()
     }
-  }, [user])
+  }, [user, setUserData])
 
   useEffect(() => {
     if (!loadingData) {
@@ -130,9 +130,9 @@ const Home = () => {
 
       return () => unsubscribe()
     }
-  }, [loadingData, user])
+  }, [loadingData, user, setUserData])
 
-  
+
 
   if (loading || loadingData) return (
     <div className="bg-gray-900 text-gray-300 h-screen flex items-center justify-center">
