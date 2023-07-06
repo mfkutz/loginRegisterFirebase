@@ -7,9 +7,7 @@ import userImg from '../assets/images/user.webp'
 import { RiStarLine } from "react-icons/ri";
 import { RiSettings3Line } from "react-icons/ri";
 import { RiExchangeDollarLine } from "react-icons/ri";
-import { RiEyeLine } from "react-icons/ri";
 import { RiSendPlane2Line } from "react-icons/ri";
-import { RiEyeOffLine } from "react-icons/ri";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { BiMoneyWithdraw } from "react-icons/bi";
 import { BiHelpCircle } from "react-icons/bi";
@@ -17,10 +15,11 @@ import { BiHistory } from "react-icons/bi";
 import { GiReceiveMoney } from "react-icons/gi";
 import { Link } from "react-router-dom"
 
-import { RiNotification2Line } from "react-icons/ri";
+
 import HashLoader from "react-spinners/ClipLoader";
 
 import { RiCloseFill } from "react-icons/ri";
+import TopMenu from "./TopMenu"
 
 
 
@@ -34,9 +33,6 @@ const Home = () => {
   const [recipientSnapshot, setRecipientSnapshot] = useState(null);
 
 
-
-  const [iconEye, setIconEye] = useState(true)
-
   //POPUP FOR SENT
   const [popup, setPopup] = useState(false)
   const [fundSent, setFundSent] = useState(false)
@@ -45,21 +41,16 @@ const Home = () => {
     setPopup(!popup)
   }
 
-  const handleIconEye = () => {
-    setIconEye(!iconEye)
-  }
 
   const handleLogout = async () => {
     await logout()
   }
-
 
   const validateDataSend = async () => {
     if (!userData || userData.money < transferAmount) {
       setTransferMessage('Insufficient funds');
       return false;
     }
-
     const db = getFirestore();
     const userRef = doc(db, 'users', user.uid);
     const recipientRef = collection(db, 'users');
@@ -70,33 +61,24 @@ const Home = () => {
       setTransferMessage('Recipient not found');
       return false;
     }
-
     const recipientDoc = recipientSnapshot.docs[0];
     const recipientId = recipientDoc.id;
-
     if (recipientId === user.uid) {
       setTransferMessage(`You can't send money to yourself`);
       return false;
     }
-
     setRecipientSnapshot(recipientSnapshot);
-
     handlePopup()
     return true;
   }
 
-
-
-
   const handleTransfer = async () => {
     const isValid = await validateDataSend();
-
     if (isValid) {
       const db = getFirestore();
       const userRef = doc(db, 'users', user.uid);
       const recipientDoc = recipientSnapshot.docs[0];
       const recipientData = recipientDoc.data();
-
       try {
         // Realizar la transferencia
         await updateDoc(userRef, {
@@ -106,10 +88,8 @@ const Home = () => {
           money: recipientData.money + transferAmount,
         });
         setTransferMessage('Successful transfer');
-
         setFundSent(true)
         handlePopup(false)
-
       } catch (error) {
         setTransferMessage('Transfer failed');
       }
@@ -121,8 +101,8 @@ const Home = () => {
     if (user) {
       const db = getFirestore()
       const userRef = doc(db, "users", user.uid)
-
       const unsubscribe = onSnapshot(userRef, (docSnapshot) => {
+
         if (docSnapshot.exists()) {
           const data = docSnapshot.data()
           setUserData(data)
@@ -138,8 +118,8 @@ const Home = () => {
     if (!loadingData) {
       const db = getFirestore()
       const userRef = doc(db, "users", user.uid)
-
       const unsubscribe = onSnapshot(userRef, (docSnapshot) => {
+
         if (docSnapshot.exists()) {
           const data = docSnapshot.data()
           setUserData(data)
@@ -159,11 +139,15 @@ const Home = () => {
   return (
     <div className="relative">
 
+
+
+
+      {/* ******************** LATERAL MENU******************* */}
       <div className="fixed bg-gray-900 min-h-screen w-[14%] border-r border-gray-600" >
 
 
         <div className="overflow-y-auto h-screen">
-          {/* ********************CABECERA******************* */}
+          {/* ******************** CABECERA MENU ******************* */}
           <div className="border-b border-gray-600 p-5">
 
             <div className="flex justify-center">
@@ -183,7 +167,7 @@ const Home = () => {
             </div>
           </div>
 
-          {/* ****************** ALL MENU *********************** */}
+          {/* ****************** MENU OPTIONS *********************** */}
           <div className="flex flex-col justify-between  h-[75%]">
 
             <div className="flex flex-col ">
@@ -205,7 +189,7 @@ const Home = () => {
                   </div>
                 </Link>
 
-                <Link className="flex items center text-gray-300 text-[21px] gap-1 mb-3">
+                <Link className="flex items center text-gray-300 text-[21px] gap-1 mb-3" >
                   <RiSendPlane2Line />
                   <div className="text-[13px]">
                     Send Money
@@ -264,22 +248,7 @@ const Home = () => {
       </div>
 
       {/* *************************** BALANCE MENU TOP ****************************/}
-      <div className="bg-gray-900 ml-[14%] p-6 justify-between h-[10vh] flex items-center border-b border-gray-600">
-        <div className="text-gray-300 text-[20px]">
-          <RiNotification2Line />
-        </div>
-
-        <div className="text-[14px] text-gray-300 flex items-center">
-          <div className={`text-[24px] cursor-pointer ${iconEye ? '' : 'hidden'}`} onClick={handleIconEye}>
-            <RiEyeLine />
-          </div>
-          <div className={`text-[24px] cursor-pointer ${iconEye ? 'hidden' : ''}`} onClick={handleIconEye}>
-            <RiEyeOffLine />
-          </div>
-          <span className="mx-2">Balance:</span>
-          <div>${iconEye ? userData.money.toFixed(2) : '*****'} USD</div>
-        </div>
-      </div>
+      <TopMenu userData={userData} />
 
 
 
@@ -328,17 +297,11 @@ const Home = () => {
 
         </div>
 
-
-
         <div className="flex justify-center">
           <button onClick={validateDataSend} className="bg-blue-500 w-[100px] flex justify-center h-[34px] items-center mt-8 rounded-sm">Send</button>
         </div>
 
       </div>
-
-
-
-
 
       {/* **************************** POPUP SEND  ********************************* */}
 
@@ -360,8 +323,6 @@ const Home = () => {
           <button onClick={handleTransfer} className="bg-blue-500 w-[100px] flex justify-center h-[34px] items-center mt-8 rounded-sm">Send</button>
         </div>
       </div>
-
-
 
       {/* ****************************  SENT  ********************************* */}
       <div className={`ml-[14%] h-[90vh] bg-gray-900 text-gray-300 px-40 ${fundSent ? '' : 'hidden'}`}>
@@ -395,16 +356,8 @@ const Home = () => {
             <div>ID of transaction</div>
           </div>
 
-
         </div>
-
       </div>
-
-
-
-
-
-
     </div>
 
   )
