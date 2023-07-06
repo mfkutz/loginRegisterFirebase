@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { useAuth } from "../context/AuthContext"
-import { Link, Navigate } from "react-router-dom"
-import { useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { getFirestore, collection, doc, setDoc } from 'firebase/firestore'
 import logo from '../assets/images/logo3.png'
 import Footer from "./Footer"
@@ -19,14 +18,10 @@ const Register = () => {
   })
 
   const [button, setButton] = useState(true)
-
   const { signup } = useAuth()
-  const navigate = useNavigate()
   const [error, setError] = useState('')
-
   const [emailCheck, setEmailCheck] = useState(true)
   const [formCheck, setFormCheck] = useState(false)
-
 
   const handleChange = ({ target: { name, value } }) => {
     //aqui mantenemos lo que tiene user con el operador de propagacion ..., luego creo una nueva propiedad
@@ -38,11 +33,8 @@ const Register = () => {
     e.preventDefault()
     setError('')
 
-
-
     try {
       const userCredential = await signup(user.email, user.password)
-
       const { uid } = userCredential.user
       const db = getFirestore()
       const userRef = doc(collection(db, 'users'), uid)
@@ -59,8 +51,6 @@ const Register = () => {
       await setDoc(userRef, userData)
       await sendEmailVerification(userCredential.user)
       signOut(auth)
-
-      /* navigate('/email') */
       setEmailCheck(false)
       setFormCheck(true)
 
@@ -99,14 +89,8 @@ const Register = () => {
       <div className="w-[190px] absolute top-11 left-20 ">
         <img src={logo} alt="" />
       </div>
-
-
       <div className="bg-gray-900 h-screen flex flex-col justify-center items-center gap-11 ">
-
         <div className="flex justify-center items-center gap-11">
-
-
-
 
           <div className="flex justify-center items-center gap-11">
 

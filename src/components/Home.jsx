@@ -26,9 +26,9 @@ import TopMenu from "./TopMenu"
 const Home = () => {
   const { user, logout, loading } = useAuth()
 
-  
-  const [userData, setUserData] = useState(null)
   const [loadingData, setLoadingData] = useState(true)
+
+  const [userData, setUserData] = useState(null)
   const [transferAmount, setTransferAmount] = useState('')
   const [transferRecipient, setTransferRecipient] = useState("")
   const [transferMessage, setTransferMessage] = useState()
@@ -131,6 +131,8 @@ const Home = () => {
       return () => unsubscribe()
     }
   }, [loadingData, user])
+
+  
 
   if (loading || loadingData) return (
     <div className="bg-gray-900 text-gray-300 h-screen flex items-center justify-center">
