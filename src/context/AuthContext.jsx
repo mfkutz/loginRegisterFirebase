@@ -40,6 +40,8 @@ const AuthContextProvider = ({ children }) => {
 
     const login = async (email, password) => {
         const { user } = await signInWithEmailAndPassword(auth, email, password)
+
+        //al eliminar o comentar esta linea de codigo, se puede ingresar sin verificar el correo
        /*  if (!user.emailVerified) {
             throw new Error("email not verified")
         } */

@@ -167,7 +167,7 @@ const Register = () => {
 
           </div>
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </div>
 
     </div >
