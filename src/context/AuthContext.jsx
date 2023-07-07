@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react"
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { auth } from '../assets/firebase/config'
 
+
 //create context
 export const authContext = createContext()
 
@@ -16,47 +17,43 @@ export const useAuth = () => {
 //esta funcion envuelve App 
 const AuthContextProvider = ({ children }) => {
 
-    //iniciamos el estado del usuario para luego poder acceder a sus datos
     const [user, setUser] = useState(null)
 
-    //debo iniciar un loading por que el user esta en null al comienzo
     const [loading, setLoading] = useState(true)
 
     const [userData, setUserData] = useState(null)
+
+ 
+
 
 
     //close sesion
     const handleLogout = async () => {
         await logout()
-      }
+    }
+
+    const logout = () => signOut(auth)
 
     //con esta funcion creamos el usuario en firebase, prestar atencion al retorno (implicito), para controlar el try catch en register
     const signup = (email, password) => createUserWithEmailAndPassword(auth, email, password)
 
 
     const login = async (email, password) => {
-
         const { user } = await signInWithEmailAndPassword(auth, email, password)
-
         if (!user.emailVerified) {
             throw new Error("email not verified")
         }
-
         setUser(user)
     }
 
-    const logout = () => signOut(auth)
 
 
     useEffect(() => {
-        /* console.log('auth provider loaded'); */
         onAuthStateChanged(auth, currentUser => {
-            console.log('in context', currentUser);
             setUser(currentUser)
             setLoading(false)
         })
     }, [])
-
 
     return (
         <authContext.Provider value={{
@@ -67,7 +64,8 @@ const AuthContextProvider = ({ children }) => {
             loading,
             userData,
             setUserData,
-            handleLogout
+            handleLogout,
+           
         }}>
             {children}
         </authContext.Provider>
