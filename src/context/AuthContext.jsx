@@ -40,9 +40,9 @@ const AuthContextProvider = ({ children }) => {
 
     const login = async (email, password) => {
         const { user } = await signInWithEmailAndPassword(auth, email, password)
-        if (!user.emailVerified) {
+       /*  if (!user.emailVerified) {
             throw new Error("email not verified")
-        }
+        } */
         setUser(user)
     }
 
