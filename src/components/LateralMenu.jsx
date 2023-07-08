@@ -18,7 +18,7 @@ const LateralMenu = () => {
 
     const { user, logout, loading, userData, setUserData, handleLogout } = useAuth()
 
-    if (loading ) return (
+    if (loading) return (
         <div className="bg-gray-900 text-gray-300 h-screen flex items-center justify-center">
             <h1 className="" ><HashLoader color="#eeeeee" /></h1>
         </div>
@@ -64,17 +64,17 @@ const LateralMenu = () => {
                                 </div>
                             </Link>
 
-                            <Link className="flex items center text-gray-300 text-[21px] gap-1 mb-3">
+                            <Link to={'/add'} className="flex items center text-gray-300 text-[21px] gap-1 mb-3">
                                 <GiReceiveMoney />
                                 <div className="text-[13px]">
                                     Add Money (P2P)
                                 </div>
                             </Link>
 
-                            <Link className="flex items center text-gray-300 text-[21px] gap-1 mb-3">
+                            <Link to={'/withdraw'} className="flex items center text-gray-300 text-[21px] gap-1 mb-3">
                                 <BiMoneyWithdraw />
                                 <div className="text-[13px]">
-                                    Whitdraw (P2P)
+                                    Withdraw (P2P)
                                 </div>
                             </Link>
 
@@ -92,7 +92,7 @@ const LateralMenu = () => {
                                 </div>
                             </Link>
 
-                            <Link className="flex items center text-gray-300 text-[21px] gap-1 mb-3">
+                            <Link to={'/history'} className="flex items center text-gray-300 text-[21px] gap-1 mb-3">
                                 <BiHistory />
                                 <div className="text-[13px]">
                                     History
@@ -112,7 +112,7 @@ const LateralMenu = () => {
                                 </div>
                             </Link>
 
-                            <Link className="flex items center text-gray-300 text-[21px] gap-1 mb-3">
+                            <Link to={'/settings'} className="flex items center text-gray-300 text-[21px] gap-1 mb-3">
                                 <RiSettings3Line />
                                 <div className="text-[13px]">
                                     Settings

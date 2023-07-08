@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useAuth } from "../context/AuthContext"
 import { doc, getFirestore, onSnapshot } from "firebase/firestore"
 import HashLoader from "react-spinners/ClipLoader";
+import construction from '../assets/images/illustration-intro.webp'
 
 import TopMenu from "./TopMenu"
 import LateralMenu from "./LateralMenu"
@@ -62,7 +63,12 @@ const Home = () => {
       <TopMenu />
 
       {/* *************************  HOME  *************************** */}
-      <div className="text-gray-300 ml-[14%] h-[90vh] bg-gray-900">Home</div>
+      <div className="text-gray-300 ml-[14%] h-[90vh] bg-gray-900 flex flex-col justify-center items-center text-sm">
+        <img src={construction} alt="" className="max-w-[500px]" />
+        <div className="mt-11">
+          Home in construction
+        </div>
+      </div>
 
     </div>
 

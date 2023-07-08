@@ -87,7 +87,9 @@ const SendRequest = () => {
                 id: uuidv4(),
                 purpose: transferPurpose,
                 amount: transferAmountNumber,
-                date: new Date().toLocaleString('en-US', { timeZone: 'UTC' }) + ' (UTC)'
+                date: new Date().toLocaleString('en-US', { timeZone: 'UTC' }) + ' (UTC)',
+                senderName: `${userData.name} ${userData.lastName}`,
+                recipientName: `${recipientData.name} ${recipientData.lastName}`
             };
 
             try {
@@ -134,7 +136,7 @@ const SendRequest = () => {
         }
     };
 
-    console.log(transferId);
+
     useEffect(() => {
         if (user) {
             const db = getFirestore()
