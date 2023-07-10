@@ -112,7 +112,7 @@ const LateralMenu = () => {
                                 </div>
                             </Link>
 
-                            <Link to={'/settings'} className="flex items center text-gray-300 text-[21px] gap-1 mb-3">
+                            <Link to={'/settings/profile'} className="flex items center text-gray-300 text-[21px] gap-1 mb-3">
                                 <RiSettings3Line />
                                 <div className="text-[13px]">
                                     Settings

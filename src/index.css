@@ -32,3 +32,12 @@ input:-webkit-autofill:focus {
 input:-webkit-autofill {
     -webkit-text-fill-color: #d1d5db;
 }
+
+.selected {
+    box-shadow: 0px 2px 0px 0px #a0a1a2;
+    color: #e7ebf1;
+}
+
+btn:hover {
+    cursor: pointer;
+}

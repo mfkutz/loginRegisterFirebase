@@ -9,7 +9,8 @@ import SendRequest from "./components/SendRequest"
 import Add from "./components/Add"
 import Withdraw from "./components/Withdraw"
 import History from "./components/History"
-import Settings from "./components/Settings"
+
+import Profile from "./components/settings/Profile"
 
 
 
@@ -26,7 +27,7 @@ function App() {
           <Route path="/add" element={<ProtectedRoute> <Add /> </ProtectedRoute>} />
           <Route path="/withdraw" element={<ProtectedRoute> <Withdraw /> </ProtectedRoute>} />
           <Route path="/history" element={<ProtectedRoute> <History /> </ProtectedRoute>} />
-          <Route path="/settings" element={<ProtectedRoute> <Settings /> </ProtectedRoute>} />
+          <Route path="/settings/profile" element={<ProtectedRoute> <Profile /> </ProtectedRoute>} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/email" element={<EmailSent />} />

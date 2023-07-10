@@ -7,7 +7,7 @@ import construction from '../assets/images/illustration-stay-productive.png'
 import TopMenu from "./TopMenu"
 import LateralMenu from "./LateralMenu"
 
-const Settings = () => {
+const Methods = () => {
     const { user, loading, setUserData } = useAuth()
 
     const [loadingData, setLoadingData] = useState(true)
@@ -63,7 +63,7 @@ const Settings = () => {
             <div className="text-gray-300 ml-[14%] h-[90vh] bg-gray-900 flex flex-col justify-center items-center text-sm">
                 <img src={construction} alt="" className="max-w-[500px]" />
                 <div className="mt-11">
-                   Settings in construction
+                   Methods in construction
                 </div>
             </div>
 
@@ -71,4 +71,4 @@ const Settings = () => {
     )
 }
 
-export default Settings
+export default Methods
