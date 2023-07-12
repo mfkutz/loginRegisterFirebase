@@ -23,10 +23,6 @@ const AuthContextProvider = ({ children }) => {
 
     const [userData, setUserData] = useState(null)
 
- 
-
-
-
     //close sesion
     const handleLogout = async () => {
         await logout()
@@ -42,9 +38,9 @@ const AuthContextProvider = ({ children }) => {
         const { user } = await signInWithEmailAndPassword(auth, email, password)
 
         //al eliminar o comentar esta linea de codigo, se puede ingresar sin verificar el correo
-       /*  if (!user.emailVerified) {
+        if (!user.emailVerified) {
             throw new Error("email not verified")
-        } */
+        }
         setUser(user)
     }
 

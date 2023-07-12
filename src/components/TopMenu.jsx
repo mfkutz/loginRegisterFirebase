@@ -13,7 +13,7 @@ const TopMenu = () => {
         setIconEye(!iconEye)
     }
     return (
-        <div className="bg-gray-900 ml-[14%] p-6 justify-between h-[10vh] flex items-center border-b border-gray-600">
+        <div className="z-10 fixed top-0 left-0 w-[86%] bg-gray-900 ml-[14%] p-6 justify-between h-[10vh] flex items-center border-b border-gray-600 ">
             <div className="text-gray-300 text-[20px]">
                 <RiNotification2Line />
             </div>
@@ -33,3 +33,11 @@ const TopMenu = () => {
 }
 
 export default TopMenu
+
+
+/* fixed top-0 left-0 w-full bg-gray-900 p-6 justify-between h-[10vh] flex items-center border-b border-gray-600 */
+
+
+
+/* original */
+/* bg-gray-900 ml-[14%] p-6 justify-between h-[10vh] flex items-center border-b border-gray-600 */

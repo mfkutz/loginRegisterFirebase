@@ -60,7 +60,7 @@ const History = () => {
             <TopMenu />
 
             {/* *************************  HOME  *************************** */}
-            <div className="text-gray-300 ml-[14%] h-[90vh] bg-gray-900 flex flex-col justify-center items-center text-sm">
+            <div className="text-gray-300 ml-[14%] min-h-[100vh] pt-[10vh] bg-gray-900 flex flex-col justify-center items-center text-sm">
                 <img src={construction} alt="" className="max-w-[500px]" />
                 <div className="mt-11">
                     History in construction

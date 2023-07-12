@@ -188,7 +188,7 @@ const SendRequest = () => {
             <TopMenu />
 
             {/* *************************  SEND MONEY   *************************** */}
-            <div className={`text-gray-300 ml-[14%] h-[90vh] bg-gray-900 ${fundSent ? 'hidden' : ''}`}>
+            <div className={`text-gray-300 ml-[14%] h-[100vh] pt-[10vh] bg-gray-900 ${fundSent ? 'hidden' : ''}`}>
                 <div className="text-gray-300 uppercase text-[34px] font-bold px-40 pt-20" >Send funds</div>
                 <div className="text-gray-300 uppercase text-[12px] font-bold px-40 mb-8" >Internal transfer</div>
 

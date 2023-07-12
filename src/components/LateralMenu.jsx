@@ -103,7 +103,7 @@ const LateralMenu = () => {
 
 
                         {/* ********************MENU TWO******************* */}
-                        <div className="border-b border-gray-600 p-5 gap-2 flex flex-col">
+                        <div className="p-5 gap-2 flex flex-col">
 
                             <Link className="flex items center text-gray-300 text-[21px] gap-1 mb-3">
                                 <BiHelpCircle />

@@ -11,6 +11,7 @@ import Withdraw from "./components/Withdraw"
 import History from "./components/History"
 
 import Profile from "./components/settings/Profile"
+import Methods from "./components/settings/Methods"
 
 
 
@@ -28,6 +29,7 @@ function App() {
           <Route path="/withdraw" element={<ProtectedRoute> <Withdraw /> </ProtectedRoute>} />
           <Route path="/history" element={<ProtectedRoute> <History /> </ProtectedRoute>} />
           <Route path="/settings/profile" element={<ProtectedRoute> <Profile /> </ProtectedRoute>} />
+          <Route path="/settings/methods" element={<ProtectedRoute> <Methods /> </ProtectedRoute>} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/email" element={<EmailSent />} />
